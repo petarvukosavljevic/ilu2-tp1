@@ -2,6 +2,7 @@ package villagegaulois;
 
 import personnages.Chef;
 import personnages.Gaulois;
+import exception.VillageSansChefException;
 
 public class Village {
 	private String nom;
@@ -44,7 +45,8 @@ public class Village {
 		return null;
 	}
 
-	public String afficherVillageois() {
+	public String afficherVillageois() throws VillageSansChefException {
+		if (this.chef == null) throw new VillageSansChefException();
 		StringBuilder chaine = new StringBuilder();
 		if (nbVillageois < 1) {
 			chaine.append("Il n'y a encore aucun habitant au village du chef "
@@ -93,7 +95,7 @@ public class Village {
 			 Etal[] etalsAvecProduit = new Etal[nbEtalsAvecProduit];
 			 int indiceEtal = 0;
 			 for(int i = 0; i<etals.length; i++) {
-				 if(etals[i].contientProduit(produit) == true) {
+				 if(etals[i].isEtalOccupe() && etals[i].contientProduit(produit)) {
 					 etalsAvecProduit[indiceEtal] = etals[i];
 					 indiceEtal++;
 				 }
